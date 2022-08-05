@@ -101,7 +101,7 @@ install -Dpm 644 -t %{buildroot}%{_datadir}/vim/vimfiles/plugin plugin/%{name}.v
 %{_mandir}/man1/%{name}.1*
 %{_mandir}/man1/%{name}-tmux.1*
 %{_datadir}/%{name}/*
-%{_datadir}/fish/vendor_functions.d/%{name}_keybindings.fish
+%{_datadir}/fish/vendor_functions.d/%{name}_key_bindings.fish
 %{_datadir}/vim/vimfiles/doc/%{name}.txt
 %{_datadir}/vim/vimfiles/plugin/%{name}.vim
 
