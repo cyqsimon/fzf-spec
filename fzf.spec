@@ -1,4 +1,5 @@
 %global debug_package %{nil}
+%global _commit f7e7259
 
 # Go 1.17 is required for now, otherwise errors on F35
 # EPEL7-9 are fine
@@ -58,7 +59,6 @@ etc.
     export PATH="${_GO_BIN_DIR}:${PATH}"
 %endif
 
-%global _commit f7e7259
 make FZF_VERSION=%{version} FZF_REVISION=%{_commit} all install
 
 %check
@@ -67,7 +67,7 @@ make FZF_VERSION=%{version} FZF_REVISION=%{_commit} all install
     export PATH="${_GO_BIN_DIR}:${PATH}"
 %endif
 
-make test
+make FZF_VERSION=%{version} FZF_REVISION=%{_commit} test
 
 %install
 # bin
