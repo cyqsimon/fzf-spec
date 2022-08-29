@@ -67,9 +67,6 @@ make FZF_VERSION=%{version} FZF_REVISION=%{_commit} all install
     export PATH="${_GO_BIN_DIR}:${PATH}"
 %endif
 
-# disable formatter test since it's causing problems on go 1.19
-sed -i '/gofmt/ s/^/#/' Makefile
-
 make FZF_VERSION=%{version} FZF_REVISION=%{_commit} test
 
 %install
@@ -111,6 +108,7 @@ install -Dpm 644 -t %{buildroot}%{_datadir}/vim/vimfiles/plugin plugin/%{name}.v
 %changelog
 * Mon Aug 29 2022 cyqsimon - 0.33.0-1
 - Release 0.33.0
+- Re-enable the fixed formatter test
 
 * Tue Aug 09 2022 cyqsimon - 0.32.1-1
 - Release 0.32.1
