@@ -1,9 +1,8 @@
 %global debug_package %{nil}
 %global _commit 04d0b02
 
-# Go 1.17 is required for now, otherwise errors on F35
-# EPEL7-9 are fine
-%if 0%{?rhel} || 0%{?fedora} >= 36
+# Go 1.18 is required for now
+%if 0%{?rhel} >= 10 || 0%{?fedora} >= 36
     %global _need_static_go_bin 0
 %else
     %global _need_static_go_bin 1
