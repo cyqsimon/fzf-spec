@@ -1,5 +1,5 @@
 %global debug_package %{nil}
-%global _commit e03ac31
+%global _commit 04d0b02
 
 # Go 1.17 is required for now, otherwise errors on F35
 # EPEL7-9 are fine
@@ -10,7 +10,7 @@
 %endif
 
 Name:           fzf
-Version:        0.33.0
+Version:        0.34.0
 Release:        1%{?dist}
 Summary:        A command-line fuzzy finder written in Go
 
@@ -106,6 +106,9 @@ install -Dpm 644 -t %{buildroot}%{_datadir}/vim/vimfiles/plugin plugin/%{name}.v
 %{_datadir}/vim/vimfiles/plugin/%{name}.vim
 
 %changelog
+* Wed Sep 28 2022 cyqsimon - 0.34.0-1
+- Release 0.34.0
+
 * Mon Aug 29 2022 cyqsimon - 0.33.0-1
 - Release 0.33.0
 - Re-enable the fixed formatter test
