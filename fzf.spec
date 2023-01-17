@@ -1,5 +1,5 @@
 %global debug_package %{nil}
-%global _commit b55f555
+%global _commit 2023011
 
 # Go 1.18 is required for now
 %if 0%{?rhel} >= 7 || 0%{?fedora} >= 36
@@ -9,7 +9,7 @@
 %endif
 
 Name:           fzf
-Version:        0.35.1
+Version:        0.36.0
 Release:        1%{?dist}
 Summary:        A command-line fuzzy finder written in Go
 
@@ -105,6 +105,9 @@ install -Dpm 644 -t %{buildroot}%{_datadir}/vim/vimfiles/plugin plugin/%{name}.v
 %{_datadir}/vim/vimfiles/plugin/%{name}.vim
 
 %changelog
+* Tue Jan 17 2023 cyqsimon - 0.36.0-1
+- Release 0.36.0
+
 * Sat Nov 19 2022 cyqsimon - 0.35.1-1
 - Release 0.35.1
 - Set correct commit hash
