@@ -1,13 +1,6 @@
 %global debug_package %{nil}
 %global _commit 2023012
 
-# Go 1.18 is required for now
-%if 0%{?rhel} >= 7 || 0%{?fedora} >= 36
-    %global _need_static_go_bin 0
-%else
-    %global _need_static_go_bin 1
-%endif
-
 Name:           fzf
 Version:        0.37.0
 Release:        1%{?dist}
@@ -17,10 +10,7 @@ License:        MIT
 URL:            https://github.com/junegunn/fzf
 Source0:        https://github.com/junegunn/fzf/archive/%{version}.tar.gz
 
-BuildRequires:  gcc git make
-%if ! %{_need_static_go_bin}
-BuildRequires:  golang
-%endif
+BuildRequires:  git golang make
 
 %description
 fzf is a general-purpose command-line fuzzy finder.
@@ -32,40 +22,10 @@ etc.
 %prep
 %autosetup
 
-%if %{_need_static_go_bin}
-    _GO_VER="$(curl -Lf https://golang.org/VERSION?m=text)"
-    %ifarch x86_64
-        _ARCH=amd64
-    %endif
-    %ifarch aarch64
-        _ARCH=arm64
-    %endif
-    if [[ -z "${_ARCH}" ]]; then
-        echo "Unsupported architecture!"
-        exit 1
-    fi
-    _GO_DL_NAME="${_GO_VER}.linux-${_ARCH}.tar.gz"
-    _GO_DL_URL="https://go.dev/dl/${_GO_DL_NAME}"
-
-    curl -Lfo "${_GO_DL_NAME}" "${_GO_DL_URL}"
-    tar -xf "${_GO_DL_NAME}"
-    # bins in go/bin
-%endif
-
 %build
-%if %{_need_static_go_bin}
-    _GO_BIN_DIR=$(realpath "go/bin")
-    export PATH="${_GO_BIN_DIR}:${PATH}"
-%endif
-
 make FZF_VERSION=%{version} FZF_REVISION=%{_commit} all install
 
 %check
-%if %{_need_static_go_bin}
-    _GO_BIN_DIR=$(realpath "go/bin")
-    export PATH="${_GO_BIN_DIR}:${PATH}"
-%endif
-
 make FZF_VERSION=%{version} FZF_REVISION=%{_commit} test
 
 %install
