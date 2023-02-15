@@ -1,8 +1,8 @@
 %global debug_package %{nil}
-%global _commit 2023012
+%global _commit 352ea07
 
 Name:           fzf
-Version:        0.37.0
+Version:        0.38.0
 Release:        1%{?dist}
 Summary:        A command-line fuzzy finder written in Go
 
@@ -65,6 +65,9 @@ install -Dpm 644 -t %{buildroot}%{_datadir}/vim/vimfiles/plugin plugin/%{name}.v
 %{_datadir}/vim/vimfiles/plugin/%{name}.vim
 
 %changelog
+* Wed Feb 15 2023 tessus - 0.38.0-1
+- Release 0.38.0
+
 * Tue Jan 24 2023 tessus - 0.37.0-1
 - Release 0.37.0
 
