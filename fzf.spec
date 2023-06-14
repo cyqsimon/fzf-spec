@@ -1,8 +1,8 @@
 %global debug_package %{nil}
-%global _commit 6eb1874
+%global _commit d471067
 
 Name:           fzf
-Version:        0.41.1
+Version:        0.42.0
 Release:        1%{?dist}
 Summary:        A command-line fuzzy finder written in Go
 
@@ -26,7 +26,7 @@ etc.
 make FZF_VERSION=%{version} FZF_REVISION=%{_commit} all install
 
 %check
-#make FZF_VERSION=%{version} FZF_REVISION=%{_commit} test
+make FZF_VERSION=%{version} FZF_REVISION=%{_commit} test
 
 %install
 # bin
@@ -65,6 +65,10 @@ install -Dpm 644 -t %{buildroot}%{_datadir}/vim/vimfiles/plugin plugin/%{name}.v
 %{_datadir}/vim/vimfiles/plugin/%{name}.vim
 
 %changelog
+* Thu Jun 15 2023 cyqsimon - 0.42.0-1
+- Release 0.42.0
+- Re-enable tests
+
 * Sat May 27 2023 cyqsimon - 0.41.1-1
 - Release 0.41.1
 - Temporarily disable tests
