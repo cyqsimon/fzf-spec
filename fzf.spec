@@ -2,7 +2,7 @@
 %global _commit d3311d9
 
 Name:           fzf
-Version:        0.43.0
+Version:        0.44.0
 Release:        1%{?dist}
 Summary:        A command-line fuzzy finder written in Go
 
@@ -65,6 +65,9 @@ install -Dpm 644 -t %{buildroot}%{_datadir}/vim/vimfiles/plugin plugin/%{name}.v
 %{_datadir}/vim/vimfiles/plugin/%{name}.vim
 
 %changelog
+* Mon Nov 13 2023 cyqsimon - 0.44.0-1
+- Release 0.44.0
+
 * Sun Oct 15 2023 cyqsimon - 0.43.0-1
 - Release 0.43.0
 
