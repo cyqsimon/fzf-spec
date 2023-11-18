@@ -1,16 +1,20 @@
 %global debug_package %{nil}
-%global _commit d7d2ac3
 
 Name:           fzf
 Version:        0.44.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A command-line fuzzy finder written in Go
 
 License:        MIT
 URL:            https://github.com/junegunn/fzf
 Source0:        https://github.com/junegunn/fzf/archive/%{version}.tar.gz
 
-BuildRequires:  git golang make
+BuildRequires:  git golang jq make
+
+%global _api_base_url https://api.github.com/repos/junegunn/fzf/git
+%global _tag_sha %(curl -Ssf %{_api_base_url}/ref/tags/%{version} | jq -re '.object.sha')
+%global _commit_sha %(curl -Ssf %{_api_base_url}/tags/%{_tag_sha} | jq -re '.object | select(.type == "commit") | .sha')
+%global _commit_sha_short %(head -c 7 <<< %{_commit_sha})
 
 %description
 fzf is a general-purpose command-line fuzzy finder.
@@ -23,10 +27,10 @@ etc.
 %autosetup
 
 %build
-make FZF_VERSION=%{version} FZF_REVISION=%{_commit} all install
+make FZF_VERSION=%{version} FZF_REVISION=%{_commit_sha_short} all install
 
 %check
-make FZF_VERSION=%{version} FZF_REVISION=%{_commit} test
+make FZF_VERSION=%{version} FZF_REVISION=%{_commit_sha_short} test
 
 %install
 # bin
@@ -65,6 +69,9 @@ install -Dpm 644 -t %{buildroot}%{_datadir}/vim/vimfiles/plugin plugin/%{name}.v
 %{_datadir}/vim/vimfiles/plugin/%{name}.vim
 
 %changelog
+* Sat Nov 18 2023 cyqsimon - 0.44.1-2
+- Automatically obtain commit SHA
+
 * Fri Nov 17 2023 cyqsimon - 0.44.1-1
 - Release 0.44.1
 
