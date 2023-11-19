@@ -2,7 +2,7 @@
 
 Name:           fzf
 Version:        0.44.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A command-line fuzzy finder written in Go
 
 License:        MIT
@@ -10,11 +10,6 @@ URL:            https://github.com/junegunn/fzf
 Source0:        https://github.com/junegunn/fzf/archive/%{version}.tar.gz
 
 BuildRequires:  git golang jq make
-
-%global _api_base_url https://api.github.com/repos/junegunn/fzf/git
-%global _tag_sha %(curl -Ssf %{_api_base_url}/ref/tags/%{version} | jq -re '.object.sha')
-%global _commit_sha %(curl -Ssf %{_api_base_url}/tags/%{_tag_sha} | jq -re '.object | select(.type == "commit") | .sha')
-%global _commit_sha_short %(head -c 7 <<< %{_commit_sha})
 
 %description
 fzf is a general-purpose command-line fuzzy finder.
@@ -26,11 +21,25 @@ etc.
 %prep
 %autosetup
 
+# Fetch commit SHA
+API_BASE_URL="https://api.github.com/repos/junegunn/fzf/git"
+TAG_INFO="$(curl -Ssf "${API_BASE_URL}/ref/tags/%{version}")"
+if jq -e '.object.type == "tag"' <<< "$TAG_INFO"; then
+    # annotated tag
+    TAG_SHA=$(curl -Ssf "${API_BASE_URL}/ref/tags/%{version}" | jq -re '.object.sha')
+    COMMIT_SHA=$(curl -Ssf "${API_BASE_URL}/tags/${TAG_SHA}" | jq -re '.object.sha')
+else
+    # lightweight tag
+    COMMIT_SHA=$(jq -re '.object.sha' <<< "$TAG_INFO")
+fi
+COMMIT_SHA_SHORT=$(head -c 7 <<< ${COMMIT_SHA})
+echo "${COMMIT_SHA_SHORT}" > REV
+
 %build
-make FZF_VERSION=%{version} FZF_REVISION=%{_commit_sha_short} all install
+make FZF_VERSION=%{version} FZF_REVISION=$(cat REV) all install
 
 %check
-make FZF_VERSION=%{version} FZF_REVISION=%{_commit_sha_short} test
+make FZF_VERSION=%{version} FZF_REVISION=$(cat REV) test
 
 %install
 # bin
@@ -69,6 +78,9 @@ install -Dpm 644 -t %{buildroot}%{_datadir}/vim/vimfiles/plugin plugin/%{name}.v
 %{_datadir}/vim/vimfiles/plugin/%{name}.vim
 
 %changelog
+* Sun Nov 19 2023 cyqsimon - 0.44.1-3
+- Fix commit SHA fetch
+
 * Sat Nov 18 2023 cyqsimon - 0.44.1-2
 - Automatically obtain commit SHA
 
