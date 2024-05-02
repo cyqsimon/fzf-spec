@@ -2,7 +2,7 @@
 
 Name:           fzf
 Version:        0.51.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A command-line fuzzy finder written in Go
 
 License:        MIT
@@ -37,10 +37,10 @@ COMMIT_SHA_SHORT=$(head -c 7 <<< ${COMMIT_SHA})
 echo "${COMMIT_SHA_SHORT}" > REV
 
 %build
-make FZF_VERSION=%{version} FZF_REVISION=$(cat REV) all install
+make GOOS=linux FZF_VERSION=%{version} FZF_REVISION=$(cat REV) all install
 
 %check
-make FZF_VERSION=%{version} FZF_REVISION=$(cat REV) test
+make GOOS=linux FZF_VERSION=%{version} FZF_REVISION=$(cat REV) test
 
 %install
 # bin
@@ -79,6 +79,9 @@ install -Dpm 644 -t %{buildroot}%{_datadir}/vim/vimfiles/plugin plugin/%{name}.v
 %{_datadir}/vim/vimfiles/plugin/%{name}.vim
 
 %changelog
+* Thu May 02 2024 cyqsimon - 0.51.0-2
+- Explicitly set `GOOS=linux`
+
 * Thu May 02 2024 cyqsimon - 0.51.0-1
 - Release 0.51.0
 
