@@ -22,6 +22,7 @@ etc.
 %autosetup
 
 # Fetch commit SHA
+set -o pipefail
 API_BASE_URL="https://api.github.com/repos/junegunn/fzf/git"
 TAG_INFO="$(curl -Ssf "${API_BASE_URL}/ref/tags/%{version}")"
 if jq -e '.object.type == "tag"' <<< "$TAG_INFO"; then
