@@ -1,8 +1,8 @@
 %global debug_package %{nil}
 
 Name:           fzf
-Version:        0.51.0
-Release:        2%{?dist}
+Version:        0.52.0
+Release:        1%{?dist}
 Summary:        A command-line fuzzy finder written in Go
 
 License:        MIT
@@ -79,6 +79,9 @@ install -Dpm 644 -t %{buildroot}%{_datadir}/vim/vimfiles/plugin plugin/%{name}.v
 %{_datadir}/vim/vimfiles/plugin/%{name}.vim
 
 %changelog
+* Wed May 08 2024 cyqsimon - 0.52.0-1
+- Release 0.52.0
+
 * Thu May 02 2024 cyqsimon - 0.51.0-2
 - Explicitly set `GOOS=linux`
 
