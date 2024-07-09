@@ -2,7 +2,7 @@
 
 Name:           fzf
 Version:        0.54.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A command-line fuzzy finder written in Go
 
 License:        MIT
@@ -24,10 +24,10 @@ etc.
 # Fetch commit SHA
 set -o pipefail
 API_BASE_URL="https://api.github.com/repos/junegunn/fzf/git"
-TAG_INFO="$(curl -Ssf "${API_BASE_URL}/ref/tags/%{version}")"
+TAG_INFO="$(curl -Ssf "${API_BASE_URL}/ref/tags/v%{version}")"
 if jq -e '.object.type == "tag"' <<< "$TAG_INFO"; then
     # annotated tag
-    TAG_SHA=$(curl -Ssf "${API_BASE_URL}/ref/tags/%{version}" | jq -re '.object.sha')
+    TAG_SHA=$(curl -Ssf "${API_BASE_URL}/ref/tags/v%{version}" | jq -re '.object.sha')
     COMMIT_SHA=$(curl -Ssf "${API_BASE_URL}/tags/${TAG_SHA}" | jq -re '.object.sha')
 else
     # lightweight tag
@@ -79,6 +79,9 @@ install -Dpm 644 -t %{buildroot}%{_datadir}/vim/vimfiles/plugin plugin/%{name}.v
 %{_datadir}/vim/vimfiles/plugin/%{name}.vim
 
 %changelog
+* Tue Jul 09 2024 cyqsimon - 0.54.0-3
+- Fix API URL
+
 * Tue Jul 09 2024 cyqsimon - 0.54.0-2
 - Fix source URL
 
