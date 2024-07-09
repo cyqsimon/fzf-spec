@@ -2,12 +2,12 @@
 
 Name:           fzf
 Version:        0.54.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A command-line fuzzy finder written in Go
 
 License:        MIT
 URL:            https://github.com/junegunn/fzf
-Source0:        https://github.com/junegunn/fzf/archive/%{version}.tar.gz
+Source0:        https://github.com/junegunn/fzf/archive/v%{version}.tar.gz
 
 BuildRequires:  git golang jq make
 
@@ -79,6 +79,9 @@ install -Dpm 644 -t %{buildroot}%{_datadir}/vim/vimfiles/plugin plugin/%{name}.v
 %{_datadir}/vim/vimfiles/plugin/%{name}.vim
 
 %changelog
+* Tue Jul 09 2024 cyqsimon - 0.54.0-2
+- Fix source URL
+
 * Tue Jul 09 2024 cyqsimon - 0.54.0-1
 - Release 0.54.0
 
