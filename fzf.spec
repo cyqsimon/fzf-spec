@@ -2,7 +2,7 @@
 
 Name:           fzf
 Version:        0.74.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A command-line fuzzy finder written in Go
 
 License:        MIT
@@ -44,16 +44,13 @@ make GOOS=linux FZF_VERSION=%{version} FZF_REVISION=$(cat REV) test
 
 %install
 # bin
-mkdir -p %{buildroot}%{_bindir}
 install -Dpm 755 -t %{buildroot}%{_bindir} bin/%{name}{,-tmux}
 
 # manpage
-mkdir -p %{buildroot}%{_mandir}/man1
 install -Dpm 644 -t %{buildroot}%{_mandir}/man1 man/man1/%{name}{,-tmux}.1
 
 # completions & keybindings
 ## not enabled by default for bash & zsh
-mkdir -p %{buildroot}%{_datadir}/%{name}
 install -Dpm 644 -t %{buildroot}%{_datadir}/%{name} shell/{completion,key-bindings}.{bash,zsh}
 
 ## enabled by default for fish (actually I'm not sure if it does or why)
@@ -62,7 +59,6 @@ install -Dpm 644 shell/key-bindings.fish \
     %{buildroot}%{_datadir}/fish/vendor_functions.d/%{name}_key_bindings.fish
 
 # vim plugin
-mkdir -p %{buildroot}%{_datadir}/vim/vimfiles/{doc,plugin}
 install -Dpm 644 -t %{buildroot}%{_datadir}/vim/vimfiles/doc doc/%{name}.txt
 install -Dpm 644 -t %{buildroot}%{_datadir}/vim/vimfiles/plugin plugin/%{name}.vim
 
@@ -79,6 +75,9 @@ install -Dpm 644 -t %{buildroot}%{_datadir}/vim/vimfiles/plugin plugin/%{name}.v
 %{_datadir}/vim/vimfiles/plugin/%{name}.vim
 
 %changelog
+* Wed Sep 09 2026 cyqsimon - 0.74.3-2
+- Remove `mkdir` calls (no longer necessary post-EL7)
+
 * Mon Aug 17 2026 cyqsimon - 0.74.3-1
 - Release 0.74.3
 
